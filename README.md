@@ -1,0 +1,1 @@
+A solution for the https://leetcode.com/problems/valid-number/ puzzle with tests based on robot framework.
