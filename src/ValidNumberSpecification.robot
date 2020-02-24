@@ -1,48 +1,55 @@
 *** Settings ***
-Library     ValidNumberSpecification.py
+Library   ValidNumberSpecification.py
 
 *** Test Cases ***
 String with integer number should be considered as valid number
-    is a valid number    12323
+  12323 should be a valid number
 
 Trailing spaces doesn't affect a result
-    is a valid number    ${SPACE * 2}23${SPACE}
+  ${SPACE * 2}23${SPACE} should be a valid number
 
 Allow decimal values (at most one decimal dot is allowed)
-    is a valid number    0.23
-    is a valid number    123.23
-    is not a valid number    1.23.23
+  0.23 should be a valid number
+  123.23 should be a valid number
+  1.23.23 is an invalid number
 
 
 A string doesn't have to have digits after a decimal dot
-    is a valid number    12.
+  12. should be a valid number
 
 Can start with dot (considered as a number with leading zero)
-    is a valid number    .3
+  .3 should be a valid number
 
 Leading signs (- or +) are allowed
-    is a valid number    +123.23
-    is a valid number    -123.23
+  +123.23 should be a valid number
+  -123.23 should be a valid number
 
-    is not a valid number    --123.23
-    is not a valid number    +-123.23
+  --123.23 is an invalid number
+  +-123.23 is an invalid number
 
 
 An exponent is allowed
-    is a valid number    +123.2e3
-    is a valid number    -123.2e+3
+  +123.2e3 should be a valid number
+  -123.2e+3 should be a valid number
 
 Should contain any digit at least
-    is not a valid number    ${SPACE * 2}
-    is not a valid number    .
-    is not a valid number    abc
+  ${SPACE * 2} is an invalid number
+  . is an invalid number
+  abc is an invalid number
 
 Cannot start with exponent
-    is not a valid number    e9
-    is not a valid number    -e58
+  e9 is an invalid number
+  -e58 is an invalid number
 
 Cannot use decimal exponent
-    is not a valid number    12e2.5
+  12e2.5 is an invalid number
 
 Only one exponent letter is allowed
-    is not a valid number    12e2e5
+  12e2e5 is an invalid number
+
+*** Keywords ***
+${stringValue} should be a valid number
+  is a valid number  ${stringValue}
+
+${stringValue} is an invalid number
+  is not a valid number  ${stringValue}
